@@ -11,8 +11,9 @@ function Products() {
     const [price, setPrice] = useState("");
     const [quantity, setQuantity] = useState("");
     const [categoryId, setCategoryId] = useState("");
+    const [productId, setProductId] = useState("");
     const [edit, setEdit] = useState(null);
-    const [categories, setcategories] = useState(null)
+    const [categories, setCategories] = useState(null)
 
     function handleName(event) {
         setName(event.target.value)
@@ -62,7 +63,7 @@ function Products() {
             categoryId: categoryId
         }
         try {
-            const updateReq = await axios.put("http://localhost:8080/products/" + edit, data);
+            const updateReq = await axios.put("http://localhost:8080/products/" + productId, data);
             alert("Updated")
             await getAllProduct();
             setName("");
@@ -89,7 +90,7 @@ function Products() {
         axios.get("http://localhost:8080/categories")
             .then((response) => {
                 console.log(response.data)
-                setcategories(response.data)
+                setCategories(response.data)
             })
             .catch((error) => {
                 console.error(error)
@@ -105,8 +106,9 @@ function Products() {
                     return (
                         <div key={product.id}>
                             {product.name} - {product.price} - {product.quantity} - {product.category?.name}
-                            <button type={"button"} onClick={() => {
+                            <button type={"button"} className={"btn btn-primary"} onClick={() => {
                                 setEdit(product.id);
+                                setProductId(product.id)
                                 setName(product.name);
                                 setPrice(product.price);
                                 setQuantity(product.quantity);
